@@ -1,8 +1,10 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { Platform } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
+import { AuthService } from './auth/services/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -11,21 +13,24 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 })
 export class AppComponent {
   constructor(
-    private platform: Platform,
-    private splashScreen: SplashScreen,
-    private statusBar: StatusBar
+    private _platform: Platform,
+    private _splashScreen: SplashScreen,
+    private _statusBar: StatusBar,
+    private _authService: AuthService,
+    private _router: Router
   ) {
     this.initializeApp();
   }
 
   initializeApp() {
-    this.platform.ready().then(() => {
-      this.statusBar.styleDefault();
-      this.splashScreen.hide();
+    this._platform.ready().then(() => {
+      this._statusBar.styleDefault();
+      this._splashScreen.hide();
     });
   }
 
   public onLogout() {
-
+    this._authService.logout();
+    this._router.navigateByUrl('/auth');
   }
 }
