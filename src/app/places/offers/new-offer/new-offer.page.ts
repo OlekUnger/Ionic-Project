@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { LoadingController } from '@ionic/angular';
+import { IPlace } from '../../models/place.model';
+import { PlacesService } from '../../services/places.service';
 import { NewOfferFormViewModel } from '../view-models/new-offer-form.view-model';
 
 @Component({
@@ -10,13 +13,31 @@ import { NewOfferFormViewModel } from '../view-models/new-offer-form.view-model'
 export class NewOfferPage implements OnInit {
     public model: NewOfferFormViewModel = new NewOfferFormViewModel();
 
-    constructor() {
+    constructor(
+        private _placesService: PlacesService,
+        private _router: Router,
+        private _loadingCtrl: LoadingController
+    ) {
     }
 
     public ngOnInit() {
     }
 
     public onCreateOffer() {
-      console.log(this.model.form)
+        if (!this.model.form.valid) {
+            return;
+        }
+        this._loadingCtrl.create({
+            message: 'Creating place...',
+            spinner: 'circles',
+        }).then(loadingEl => {
+            loadingEl.present();
+            const newPlace: IPlace = this.model.getPlaceData(this.model.form.value);
+            this._placesService.addPlace(newPlace).subscribe(() => {
+                loadingEl.dismiss();
+                this.model.form.reset();
+                this._router.navigateByUrl('/places/offers');
+            });
+        });
     }
 }

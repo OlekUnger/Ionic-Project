@@ -1,4 +1,5 @@
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { IPlace } from '../../models/place.model';
 
 export class NewOfferFormViewModel {
     public form: FormGroup;
@@ -28,5 +29,15 @@ export class NewOfferFormViewModel {
                 validators: [Validators.required]
             })
         });
+    }
+
+    public getPlaceData(data: IPlace): IPlace {
+        return {
+            title: data.title,
+            description: data.description,
+            price: +data.price,
+            dateFrom: new Date(data.dateFrom),
+            dateTo: new Date(data.dateTo)
+        };
     }
 }
