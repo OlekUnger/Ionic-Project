@@ -13,18 +13,6 @@ const routes: Routes = [
                 redirectTo: '/places/discover',
                 pathMatch: 'full'
             },
-            /** tabs */
-            // {
-            //     path: 'discover-page',
-            //     redirectTo: '/places/discover',
-            //     pathMatch: 'full',
-            // },
-            // {
-            //     path: 'offers',
-            //     redirectTo: '/places/offers',
-            //     pathMatch: 'full',
-            // },
-            /** end tabs */
             {
                 path: 'discover',
                 loadChildren: () => import('./discover/discover.module').then(m => m.DiscoverPageModule)

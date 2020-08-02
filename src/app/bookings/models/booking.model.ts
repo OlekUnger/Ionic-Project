@@ -23,3 +23,15 @@ export interface IBooking {
     dateFrom: Date;
     dateTo: Date;
 }
+
+export interface IBookingResponseModel {
+    bookedFrom: string;
+    bookedTo: string;
+    firstName: string;
+    lastName: string;
+    placeId: string;
+    placeImg: string;
+    placeTitle: string;
+    userId: string;
+    guestNumber: number;
+}

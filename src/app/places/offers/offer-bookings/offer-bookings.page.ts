@@ -12,6 +12,7 @@ import { PlacesService } from '../../services/places.service';
 })
 export class OfferBookingsPage implements OnInit, OnDestroy {
     public place: PlaceModel;
+    public isLoading: boolean = false;
     private _placeSub: Subscription;
 
     constructor(
@@ -27,9 +28,11 @@ export class OfferBookingsPage implements OnInit, OnDestroy {
                 this._navCtrl.navigateBack('/places/offers');
                 return;
             }
+            this.isLoading = true;
             this._placeSub = this._placesService.getPlace(paramMap.get('placeId'))
                 .subscribe((place: PlaceModel) => {
                     this.place = place;
+                    this.isLoading = false;
                 });
         });
     }

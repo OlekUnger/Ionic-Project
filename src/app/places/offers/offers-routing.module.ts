@@ -13,10 +13,10 @@ const routes: Routes = [
         pathMatch: 'full',
         loadChildren: () => import('./new-offer/new-offer.module').then(m => m.NewOfferPageModule)
     },
-    {
-      path: ':placeId',
-      loadChildren: () => import('./offer-bookings/offer-bookings.module').then(m => m.PlaceBookingsPageModule)
-    },
+    // {
+    //   path: ':placeId',
+    //   loadChildren: () => import('./offer-bookings/offer-bookings.module').then(m => m.PlaceBookingsPageModule)
+    // },
     {
         path: 'edit/:placeId',
         pathMatch: 'full',

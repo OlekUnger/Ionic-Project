@@ -11,6 +11,7 @@ import { BookingService } from './services/booking.service';
 })
 export class BookingsPage implements OnInit, OnDestroy {
     public loadedBookings: BookingModel[];
+    public isLoading: boolean = false;
     private _bookingsSub: Subscription;
 
     constructor(private _bookingService: BookingService, private _loadingCtrl: LoadingController) {
@@ -21,6 +22,12 @@ export class BookingsPage implements OnInit, OnDestroy {
             .subscribe((bookings: BookingModel[]) => {
                 this.loadedBookings = bookings;
             });
+    }
+
+    public ionViewWillEnter(): void {
+        this.isLoading = true;
+        this._bookingService.fetchBookings()
+            .subscribe(() => this.isLoading = false);
     }
 
     public onCancelBooking(id: string, slidingBooking: IonItemSliding): void {

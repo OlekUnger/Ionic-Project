@@ -19,3 +19,14 @@ export interface IPlace {
     dateFrom: Date;
     dateTo: Date;
 }
+
+export interface IPlaceResponseModel {
+        id?: string;
+        title: string;
+        description: string;
+        imgUrl: string;
+        price: number;
+        availableFrom: string;
+        availableTo: string;
+        userId: string;
+}

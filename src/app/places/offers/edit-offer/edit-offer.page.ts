@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { LoadingController, NavController } from '@ionic/angular';
+import { AlertController, LoadingController, NavController } from '@ionic/angular';
 import { Subscription } from 'rxjs';
 import { PlaceModel } from '../../models/place.model';
 import { PlacesService } from '../../services/places.service';
@@ -13,7 +13,9 @@ import { EditOfferFormViewModel } from '../view-models/edit-offer-form.view-mode
 })
 export class EditOfferPage implements OnInit, OnDestroy {
     public place: PlaceModel;
+    public placeId: string;
     public model: EditOfferFormViewModel = new EditOfferFormViewModel();
+    public isLoading: boolean = false;
     private _placeSub: Subscription;
 
     constructor(
@@ -21,7 +23,8 @@ export class EditOfferPage implements OnInit, OnDestroy {
         private _placesService: PlacesService,
         private _navCtrl: NavController,
         private _router: Router,
-        private _loadingCtrl: LoadingController
+        private _loadingCtrl: LoadingController,
+        private _alertCtrl: AlertController
     ) {
     }
 
@@ -31,10 +34,19 @@ export class EditOfferPage implements OnInit, OnDestroy {
                 this._navCtrl.navigateBack('/places/offers');
                 return;
             }
+            this.placeId = paramMap.get('placeId')
+            this.isLoading = true;
             this._placeSub = this._placesService.getPlace(paramMap.get('placeId'))
                 .subscribe((place: PlaceModel) => {
                     this.place = place;
                     this.model.initialize(this.place);
+                    this.isLoading = false;
+                }, error => {
+                    this._alertCtrl.create({
+                        header: 'An error occurred. ',
+                        message: 'Place could not be fetched. Please try again later.',
+                        buttons: [{text: 'Okey', handler: () => this._router.navigateByUrl('/places/offers')}]
+                    }).then(alertEl => alertEl.present());
                 });
         });
     }
